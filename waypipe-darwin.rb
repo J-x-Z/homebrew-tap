@@ -6,7 +6,7 @@ class WaypipeDarwin < Formula
   head "https://github.com/J-x-Z/waypipe-darwin.git", branch: "main"
 
   depends_on "rust" => :build
-  depends_on "rust-bindgen" => :build
+  depends_on "bindgen" => :build
   depends_on "lz4"
   depends_on "zstd"
 
