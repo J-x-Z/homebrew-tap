@@ -18,6 +18,9 @@ class WaypipeDarwin < Formula
     ENV["LIBRARY_PATH"] = "#{Formula["zstd"].opt_lib}:#{Formula["lz4"].opt_lib}"
     ENV["CPATH"] = "#{Formula["zstd"].opt_include}:#{Formula["lz4"].opt_include}"
     
+    # Ensure bindgen is on the PATH (required for build.rs which calls 'bindgen' CLI)
+    ENV.prepend_path "PATH", Formula["bindgen"].bin
+    
     system "cargo", "install", *std_cargo_args, "--no-default-features", "--features", "lz4,zstd"
   end
 
