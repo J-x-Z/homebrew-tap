@@ -1,0 +1,43 @@
+name: Waypipe package
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - waypipe-darwin.rb
+      - .github/workflows/waypipe.yml
+  pull_request:
+    paths:
+      - waypipe-darwin.rb
+      - .github/workflows/waypipe.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    timeout-minutes: 20
+    env:
+      HOMEBREW_NO_INSTALL_CLEANUP: "1"
+      HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: "1"
+      HOMEBREW_NO_ASK: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare the tap
+        run: |
+          brew update
+          brew tap J-x-Z/tap
+          cp waypipe-darwin.rb "$(brew --repository J-x-Z/tap)/waypipe-darwin.rb"
+          if brew help trust >/dev/null 2>&1; then
+            brew trust --formula J-x-Z/tap/waypipe-darwin
+          fi
+      - name: Install the release from source
+        run: brew install --build-from-source J-x-Z/tap/waypipe-darwin
+      - name: Test the installed transport
+        run: |
+          brew test J-x-Z/tap/waypipe-darwin
+          "$(brew --prefix J-x-Z/tap/waypipe-darwin)/bin/waypipe" --help
+      - name: Check linkage
+        run: brew linkage --test J-x-Z/tap/waypipe-darwin
