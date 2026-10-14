@@ -1,8 +1,9 @@
 class CocoaWay < Formula
   desc "Native macOS Wayland compositor for running Linux apps"
   homepage "https://github.com/J-x-Z/cocoa-way"
-  url "https://github.com/J-x-Z/cocoa-way/archive/refs/tags/v2.0.3.tar.gz"
-  sha256 "5251280acbf81f7e9b8e42476b0d6f78d1f008aee9d83e7c39a32f90fdaa2054"
+  url "https://github.com/J-x-Z/cocoa-way/archive/e18c0b3e42cc1c6200ebf28a2d28f15ab56b2609.tar.gz"
+  version "2.1.0"
+  sha256 "07b132333b4ea43233dfb5dbb895a232dd3f0dfd132275ed27845ea0dd155877"
   license "GPL-3.0-only"
   head "https://github.com/J-x-Z/cocoa-way.git", branch: "main"
 
@@ -10,7 +11,6 @@ class CocoaWay < Formula
   depends_on "rust" => :build
   depends_on "libxkbcommon"
   depends_on :macos
-  depends_on "pixman"
 
   def install
     system "cargo", "install", *std_cargo_args
