@@ -1,9 +1,9 @@
 class CocoaWay < Formula
   desc "Native macOS Wayland compositor for running Linux apps"
   homepage "https://github.com/J-x-Z/cocoa-way"
-  url "https://github.com/J-x-Z/cocoa-way/archive/e18c0b3e42cc1c6200ebf28a2d28f15ab56b2609.tar.gz"
-  version "2.1.0"
-  sha256 "07b132333b4ea43233dfb5dbb895a232dd3f0dfd132275ed27845ea0dd155877"
+  url "https://github.com/J-x-Z/cocoa-way/archive/refs/tags/v2.1.1.tar.gz"
+  version "2.1.1"
+  sha256 "616f27a5164843a18f2f01c1d43dfb4da8634117a09fa0166cfbc9bf0a2050b2"
   license "GPL-3.0-only"
   head "https://github.com/J-x-Z/cocoa-way.git", branch: "main"
 
@@ -14,6 +14,7 @@ class CocoaWay < Formula
 
   def install
     system "cargo", "install", *std_cargo_args
+    system "bash", "scripts/bundle-example-resources.sh", share/"cocoa-way/container-images"
   end
 
   def caveats
@@ -36,5 +37,7 @@ class CocoaWay < Formula
     assert_match "cocoa-way", shell_output("#{bin}/cocoa-way --help 2>&1")
     assert_match "applications", shell_output("#{bin}/cocoa-wayctl --help")
     assert_predicate bin/"cocoa-way-mcp", :executable?
+    assert_predicate share/"cocoa-way/container-images/examples/container-images/Containerfile.niri", :file?
+    assert_predicate share/"cocoa-way/container-images/examples/container-images/cocoa-way-clipboard-relay", :executable?
   end
 end
